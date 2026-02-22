@@ -1,0 +1,13 @@
+pdfs/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# Google Drive duplicates
+*~.pdf

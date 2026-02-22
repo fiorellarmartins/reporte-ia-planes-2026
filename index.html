@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte de IA: Planes de Gobierno 2026</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-flag"></div>
+      <div>
+        <h1>Reporte de IA: Planes de Gobierno 2026</h1>
+        <p class="subtitulo">Análisis de contenido generado por inteligencia artificial en los planes de gobierno de los partidos políticos peruanos. Detección realizada con <a href="https://www.pangram.com" target="_blank" rel="noopener">Pangram Labs</a>.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="leyenda">
+      <span class="badge badge-bajo">0–25% IA</span>
+      <span class="badge badge-medio">26–50% IA</span>
+      <span class="badge badge-alto">51–75% IA</span>
+      <span class="badge badge-muy-alto">76–100% IA</span>
+    </div>
+
+    <div class="tabla-header">
+      <span class="col-chevron"></span>
+      <button class="col-pct col-sort" data-sort="pct">% IA <span class="sort-icon"></span></button>
+      <button class="col-partido col-sort" data-sort="nombre">Partido <span class="sort-icon"></span></button>
+      <button class="col-palabras col-sort" style="justify-content:center;" data-sort="palabras">Palabras <span class="sort-icon"></span></button>
+      <span class="col-link"></span>
+    </div>
+
+    <div id="lista"></div>
+
+    <p class="nota">* El análisis fue realizado sobre los planes de gobierno presentados ante el JNE. Los porcentajes reflejan la probabilidad estadística de contenido generado por IA según el modelo de Pangram Labs — no constituyen prueba definitiva ni acusación formal. Los resultados son de naturaleza probabilística y pueden variar. Datos en actualización.</p>
+  </main>
+
+  <footer>
+    <p>Datos: <a href="https://www.pangram.com" target="_blank" rel="noopener">Pangram Labs</a> · Elecciones Generales Perú 2026 · Logotipos usados con fines identificativos; propiedad de los respectivos partidos.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="sparklines.js"></script>
+  <script src="breakdowns.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
