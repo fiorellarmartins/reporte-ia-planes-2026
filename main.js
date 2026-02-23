@@ -13,7 +13,7 @@ function getBarColor(pct) {
 }
 
 function getPorcentajeDisplay(versiones) {
-  const pcts = versiones.map(v => v.porcentaje);
+  const pcts = versiones.map(v => Math.round(v.porcentaje));
   const min = Math.min(...pcts);
   const max = Math.max(...pcts);
   return min === max ? `${max}%` : `${min}–${max}%`;
@@ -28,14 +28,24 @@ function getMaxPalabras(versiones) {
   return vals.length ? Math.max(...vals) : null;
 }
 
+function getPalabrasDisplay(versiones) {
+  const vals = versiones.map(v => v.palabras).filter(v => v !== null);
+  if (!vals.length) return "—";
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  return min === max
+    ? max.toLocaleString("es-PE")
+    : `${min.toLocaleString("es-PE")}–${max.toLocaleString("es-PE")}`;
+}
+
 function formatPalabras(n) {
   if (n === null) return "—";
   return n.toLocaleString("es-PE");
 }
 
-// Sort state: array of { key, dir } in priority order
-// Cycle per column: not active → asc → desc → removed
-let sortStack = [{ key: "pct", dir: "desc" }];
+// Sort state: single active column
+let sortKey = "pct";
+let sortDir = "desc";
 
 function getVal(p, key) {
   if (key === "pct")      return getMaxPorcentaje(p.versiones);
@@ -44,26 +54,17 @@ function getVal(p, key) {
   return null;
 }
 
-function compareByKey(a, b, key, dir) {
-  const va = getVal(a, key);
-  const vb = getVal(b, key);
-  if (key === "nombre") {
-    const cmp = (va ?? "").localeCompare(vb ?? "", "es");
-    return dir === "asc" ? cmp : -cmp;
-  }
-  const na = va ?? (dir === "asc" ? Infinity : -Infinity);
-  const nb = vb ?? (dir === "asc" ? Infinity : -Infinity);
-  return dir === "asc" ? na - nb : nb - na;
-}
-
 function sortPartidos(data) {
-  if (!sortStack.length) return [...data];
   return [...data].sort((a, b) => {
-    for (const { key, dir } of sortStack) {
-      const cmp = compareByKey(a, b, key, dir);
-      if (cmp !== 0) return cmp;
+    const va = getVal(a, sortKey);
+    const vb = getVal(b, sortKey);
+    if (sortKey === "nombre") {
+      const cmp = (va ?? "").localeCompare(vb ?? "", "es");
+      return sortDir === "asc" ? cmp : -cmp;
     }
-    return 0;
+    const na = va ?? (sortDir === "asc" ? Infinity : -Infinity);
+    const nb = vb ?? (sortDir === "asc" ? Infinity : -Infinity);
+    return sortDir === "asc" ? na - nb : nb - na;
   });
 }
 
@@ -71,26 +72,18 @@ function updateHeaders() {
   document.querySelectorAll(".col-sort").forEach(btn => {
     const key = btn.dataset.sort;
     const icon = btn.querySelector(".sort-icon");
-    const idx = sortStack.findIndex(s => s.key === key);
-    const entry = sortStack[idx];
-    btn.classList.toggle("active", !!entry);
-    if (entry) {
-      const arrow = entry.dir === "asc" ? "↑" : "↓";
-      icon.textContent = sortStack.length > 1 ? `${arrow}${idx + 1}` : arrow;
-    } else {
-      icon.textContent = "";
-    }
+    const active = key === sortKey;
+    btn.classList.toggle("active", active);
+    icon.textContent = active ? (sortDir === "asc" ? "↑" : "↓") : "";
   });
 }
 
 function handleSortClick(key) {
-  const idx = sortStack.findIndex(s => s.key === key);
-  if (idx === -1) {
-    sortStack.push({ key, dir: "asc" });
-  } else if (sortStack[idx].dir === "asc") {
-    sortStack[idx].dir = "desc";
+  if (key === sortKey) {
+    sortDir = sortDir === "asc" ? "desc" : "asc";
   } else {
-    sortStack.splice(idx, 1);
+    sortKey = key;
+    sortDir = key === "nombre" ? "asc" : "desc";
   }
   updateHeaders();
   renderLista();
@@ -133,7 +126,13 @@ function renderSparklineSVG(pts, id) {
   </svg>`;
 }
 
-const BREAKDOWN_LABELS = ["Generado por IA", "Asistencia moderada de IA", "Asistencia leve de IA", "Escrita por humano"];
+function buildDisclaimerIcon(key) {
+  const text = key ? disclaimers[key] : null;
+  if (!text) return "";
+  return `<span class="disclaimer-icon">IA<span class="disclaimer-icon-tooltip">Este partido declaró uso de IA en la elaboración del documento: "${text}"</span></span>`;
+}
+
+const BREAKDOWN_LABELS = ["Generado por IA", "Asistencia moderada de IA", "Asistencia leve de IA", "Escrito por humanos"];
 const BREAKDOWN_COLORS = ["#ea580c", "#f59e0b", "#eab308", "#16a34a"];
 
 function buildBreakdownTableHTML(key) {
@@ -143,7 +142,7 @@ function buildBreakdownTableHTML(key) {
     ${vals.map((v, i) => `
       <div class="breakdown-row">
         <span class="breakdown-bar" style="background:${BREAKDOWN_COLORS[i]}"></span>
-        <span class="breakdown-pct">${v}%</span>
+        <span class="breakdown-pct">${Math.round(v)}%</span>
         <span class="breakdown-label">${BREAKDOWN_LABELS[i]}</span>
       </div>`).join("")}
   </div>`;
@@ -155,7 +154,11 @@ function buildGraficoInner(v, id) {
   if (!pts && !bdKey) return "";
   return `<div class="grafico-inner">
     ${buildBreakdownTableHTML(bdKey)}
-    ${pts ? `<div class="sparkline-wrap">${renderSparklineSVG(pts, id)}</div>` : ""}
+    ${pts ? `<div class="sparkline-wrap">
+      <span class="sparkline-info">?<span class="sparkline-tooltip">Probabilidad de contenido generado por IA a lo largo del documento, de inicio a fin. El eje Y va de 0% (escrito por humanos) a 100% (generado por IA).</span></span>
+      ${buildDisclaimerIcon(v.sparklineKey)}
+      ${renderSparklineSVG(pts, id)}
+    </div>` : ""}
   </div>`;
 }
 
@@ -166,11 +169,14 @@ function buildDropdownHTML(p, i) {
       return `<div class="dropdown-row">
         <div class="dropdown-row-header">
           <span class="dropdown-version">${v.version || "Plan de gobierno"}</span>
-          <span class="pct-badge ${getBadgeClass(v.porcentaje)}" style="font-size:0.75rem;">${v.porcentaje}%</span>
+          <span class="pct-badge ${getBadgeClass(v.porcentaje)}" style="font-size:0.75rem;">${Math.round(v.porcentaje)}%</span>
           ${v.palabras !== null ? `<span class="dropdown-palabras">${formatPalabras(v.palabras)} palabras</span>` : ""}
           ${v.pangram
             ? `<a href="${v.pangram}" target="_blank" rel="noopener" class="ver-reporte ver-reporte-sm">Ver reporte <span class="ext-arrow">↗</span></a>`
             : `<span class="sin-link">Sin enlace</span>`}
+          ${v.pdf
+            ? `<a href="${v.pdf}" target="_blank" rel="noopener" class="ver-reporte ver-reporte-sm">Plan original <span class="ext-arrow">↗</span></a>`
+            : ""}
         </div>
         ${inner ? `<div class="grafico-inner-wrap">${inner}</div>` : ""}
       </div>`;
@@ -206,9 +212,10 @@ function renderLista() {
       ? `<img src="${p.logo}" alt="${p.partido}" class="logo" />`
       : `<div class="logo-placeholder">${p.partido.charAt(0)}</div>`;
 
-    const linkHTML = p.versiones[0].pangram
-      ? `<a href="${p.versiones[0].pangram}" target="_blank" rel="noopener" class="ver-reporte">Ver reporte <span class="ext-arrow">↗</span></a>`
-      : "";
+    const linkHTML = multi ? "" : [
+      p.versiones[0].pangram ? `<a href="${p.versiones[0].pangram}" target="_blank" rel="noopener" class="ver-reporte">Ver reporte <span class="ext-arrow">↗</span></a>` : "",
+      p.versiones[0].pdf ? `<a href="${p.versiones[0].pdf}" target="_blank" rel="noopener" class="ver-reporte">Plan original <span class="ext-arrow">↗</span></a>` : ""
+    ].join("");
 
     const expansionHTML = multi
       ? buildDropdownHTML(p, i)
@@ -232,7 +239,7 @@ function renderLista() {
             <span class="candidato-nombre">${p.candidato}</span>
           </span>
         </span>
-        <span class="col-palabras">${formatPalabras(maxPalabras)}</span>
+        <span class="col-palabras">${getPalabrasDisplay(p.versiones)}</span>
         <span class="col-link">${linkHTML}</span>
       </div>
       ${expansionHTML}

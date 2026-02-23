@@ -4,7 +4,9 @@
 
 Este proyecto visualiza los resultados del análisis de detección de IA aplicado a los planes de gobierno de los partidos políticos peruanos inscritos para las Elecciones Generales 2026. Los documentos analizados son los mismos que cada partido presentó oficialmente ante el Jurado Nacional de Elecciones (JNE).
 
-🔗 **[Ver el reporte en vivo](https://tuusuario.github.io/reporte-ia-planes-2026)**
+🔗 **[Ver el reporte en vivo](https://fiorellarmartins.github.io/reporte-ia-planes-2026)**
+
+**Por [Roberto Monjaras](https://x.com/robj02) y [Fiorella Ramírez](https://x.com/fiormartins)**
 
 ---
 
@@ -23,7 +25,7 @@ reporte-ia-planes-2026/
 ├── index.html        # Página principal
 ├── styles.css        # Estilos
 ├── data.js           # Datos por partido (porcentajes, candidatos, enlaces)
-├── sparklines.js     # Series de datos para los gráficos de línea
+├── sparklines.js     # Series de datos para los gráficos de línea (duplicados del reporte de Pangram)
 ├── breakdowns.js     # Desglose por categoría de escritura
 ├── main.js           # Lógica de renderizado e interacción
 ├── logos/            # Logotipos de los partidos (uso identificativo)
@@ -36,7 +38,7 @@ reporte-ia-planes-2026/
 
 - **Fuente de detección:** [Pangram Labs](https://www.pangram.com)
 - **Documentos analizados:** Planes de gobierno presentados ante el JNE, disponibles públicamente en la carpeta `planes/`
-- **Cobertura:** 37 partidos políticos inscritos para las Elecciones Generales Perú 2026
+- **Cobertura:** 36 partidos políticos inscritos para las Elecciones Generales Perú 2026
 - **Estado:** En actualización a medida que se incorporan nuevos planes o versiones
 
 Los logotipos de los partidos son usados con fines identificativos y son propiedad de los respectivos partidos políticos.
