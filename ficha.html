@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha Técnica — Reporte de IA: Planes de Gobierno 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Layout ── */
+    .ficha-main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 36px 24px 80px;
+    }
+
+    .ficha-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--gris-texto);
+      text-decoration: none;
+      margin-bottom: 32px;
+      transition: color 0.15s;
+    }
+    .ficha-back:hover { color: var(--negro); }
+
+    /* ── Intro ── */
+    .ficha-intro {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 2px solid var(--gris-borde);
+    }
+
+    .ficha-intro h2 {
+      font-family: "Inter", sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 12px;
+      color: var(--negro);
+    }
+
+    .ficha-intro p {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: #3a3530;
+      max-width: 660px;
+    }
+
+    /* ── Sections ── */
+    .ficha-section {
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+
+    .ficha-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .ficha-section-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gris-texto);
+      margin-bottom: 10px;
+    }
+
+    .ficha-section h3 {
+      font-family: "Inter", sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--negro);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .ficha-section p {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: #3a3530;
+      margin-bottom: 10px;
+    }
+
+    .ficha-section p:last-child { margin-bottom: 0; }
+
+
+
+    /* ── Category list ── */
+    .ficha-cats {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .ficha-cats li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #3a3530;
+    }
+
+    .cat-pill {
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 3px;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .cat-pill.generado  { background: #f5e0e3; color: #7a1020; }
+    .cat-pill.moderado  { background: #faecd5; color: #7a4a0a; }
+    .cat-pill.leve      { background: #faf3d5; color: #6b5a0a; }
+    .cat-pill.humano    { background: #dff0e7; color: #185c32; }
+
+    /* ── Variables table ── */
+    .ficha-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 0.82rem;
+    }
+
+    .ficha-table thead th {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--gris-texto);
+      text-align: left;
+      padding: 6px 12px 6px 0;
+      border-bottom: 2px solid var(--gris-borde);
+    }
+
+    .ficha-table tbody td {
+      padding: 8px 12px 8px 0;
+      border-bottom: 1px solid var(--gris-borde);
+      vertical-align: top;
+      line-height: 1.5;
+      color: #3a3530;
+    }
+
+    .ficha-table tbody tr:last-child td { border-bottom: none; }
+
+    .ficha-table code {
+      font-family: "Courier New", monospace;
+      font-size: 0.78rem;
+      background: var(--gris-claro);
+      border: 1px solid var(--gris-borde);
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: var(--negro);
+      white-space: nowrap;
+    }
+
+    /* ── Quote / cita ── */
+    .ficha-cita {
+      background: var(--gris-claro);
+      border-left: 3px solid var(--rojo);
+      padding: 14px 18px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.85rem;
+      color: var(--negro);
+      line-height: 1.75;
+      font-style: italic;
+      margin: 14px 0 10px;
+    }
+
+    /* ── Inline field rows (for licencia) ── */
+    .ficha-dl {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 8px 16px;
+      margin: 14px 0;
+      font-size: 0.85rem;
+    }
+
+    .ficha-dl dt {
+      font-weight: 600;
+      color: var(--gris-texto);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding-top: 1px;
+    }
+
+    .ficha-dl dd {
+      color: #3a3530;
+      line-height: 1.55;
+    }
+
+    .ficha-dl a {
+      color: var(--rojo);
+      text-decoration: none;
+    }
+    .ficha-dl a:hover { text-decoration: underline; }
+
+
+    @media (max-width: 600px) {
+
+      .ficha-dl {
+        grid-template-columns: 1fr;
+        gap: 4px 0;
+      }
+
+      .ficha-dl dt { margin-top: 10px; }
+      .ficha-dl dt:first-child { margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-flag"></div>
+      <div>
+        <h1>Reporte de IA: Planes de Gobierno 2026</h1>
+        <p class="subtitulo">Ficha técnica y metodología · Análisis de contenido generado por inteligencia artificial en los planes de gobierno de los partidos políticos peruanos</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="ficha-main">
+    <a href="index.html" class="ficha-back">← Volver al reporte</a>
+
+    <div class="ficha-intro">
+      <h2>¿Cuánto del plan de gobierno que tu partido presentó ante el JNE fue escrito por inteligencia artificial?</h2>
+      <p>Esta ficha documenta el origen de los datos, la herramienta utilizada, el proceso de análisis y las limitaciones del estudio. Los resultados son de naturaleza probabilística y deben interpretarse como tal: no constituyen prueba definitiva ni acusación formal de ningún tipo.</p>
+    </div>
+
+    <!-- Autores y contexto -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Identificación</p>
+      <h3>Autores y contexto</h3>
+      <dl class="ficha-dl">
+        <dt>Autores</dt>
+        <dd><a href="https://x.com/robj02" target="_blank" rel="noopener">Roberto Monjaras</a>, <a href="https://x.com/fiormartins" target="_blank" rel="noopener">Fiorella Ramírez</a> y <a href="https://www.linkedin.com/in/francv/" target="_blank" rel="noopener">Francesca Chocano</a></dd>
+        <dt>Publicación</dt>
+        <dd>Febrero 2026</dd>
+        <dt>Recolección y procesamiento</dt>
+        <dd>20 de febrero de 2026</dd>
+        <dt>Contexto</dt>
+        <dd>Elecciones Generales Perú 2026</dd>
+        <dt>URL</dt>
+        <dd><a href="https://fiorellarmartins.github.io/reporte-ia-planes-2026" target="_blank" rel="noopener">fiorellarmartins.github.io/reporte-ia-planes-2026</a></dd>
+      </dl>
+    </div>
+
+    <!-- Cobertura -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Cobertura</p>
+      <h3>Documentos analizados</h3>
+      <p>Se analizaron los planes de gobierno presentados oficialmente ante el Jurado Nacional de Elecciones (JNE) por los partidos inscritos para las Elecciones Generales Perú 2026. Todos los documentos son de acceso público. El dataset cubre <strong>36 partidos políticos</strong> y <strong>38 documentos analizados</strong> (38 registros en el CSV).</p>
+      <p>Se utilizó la versión oficial presentada ante el JNE como documento primario para cada partido. En los casos de <strong>Alianza Para el Progreso</strong> y <strong>Renovación Popular</strong> se incluyó un segundo documento por estar disponible públicamente, haber sido utilizado activamente en campaña y ser conceptualmente distinto del plan JNE; ambos fueron analizados por separado y aparecen como registros independientes en el dataset.</p>
+    </div>
+
+    <!-- Metodología -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Metodología</p>
+      <h3>Proceso de análisis</h3>
+      <p>Se recopilaron los planes de gobierno disponibles públicamente en la web del JNE. Cada documento fue cargado en PDF a la plataforma de Pangram Labs, que analiza el texto a nivel de párrafo y asigna a cada fragmento una clasificación binaria (generado por IA / escrito por humanos), produciendo un número fijo de puntos de muestreo por documento según la extensión del texto. Se registró el porcentaje global y el desglose por categoría de escritura para cada partido, y los resultados fueron volcados a los archivos CSV disponibles en este repositorio.</p>
+      <p>La detección fue realizada con <a href="https://www.pangram.com" target="_blank" rel="noopener">Pangram Labs</a> (versión 3.0). El modelo utiliza una arquitectura de lenguaje clásica que tokeniza el texto, genera embeddings y produce una clasificación por fragmento. Según la documentación pública de Pangram, el modelo fue entrenado con aproximadamente un millón de documentos y alcanza una precisión declarada de 99,98% con una tasa de falsos positivos cercana a cero, reducida mediante un algoritmo de <em>hard negative mining</em> iterativo. No existe, hasta donde los autores conocen, una validación independiente publicada en revisión por pares de estas cifras. Para más información, ver <a href="https://www.pangram.com/research/how-it-works" target="_blank" rel="noopener">pangram.com/research/how-it-works</a>.</p>
+    </div>
+
+    <!-- Categorías -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Clasificación</p>
+      <h3>Categorías de escritura (Pangram 3.0)</h3>
+      <p>El modelo clasifica cada fragmento de texto en una de cuatro categorías. El porcentaje titular que se muestra en el reporte corresponde únicamente a <strong>Generado por IA</strong>. El desglose completo está disponible en el dataset.</p>
+      <ul class="ficha-cats">
+        <li><span class="cat-pill generado">Generado por IA</span> Texto muy probablemente creado íntegramente por un modelo de lenguaje.</li>
+        <li><span class="cat-pill moderado">Asistencia moderada</span> Texto sustancialmente reescrito o co-generado con ayuda de IA.</li>
+        <li><span class="cat-pill leve">Asistencia leve</span> Texto con edición menor o asistencia puntual de IA.</li>
+        <li><span class="cat-pill humano">Escrito por humanos</span> Texto sin indicios de generación o edición por IA.</li>
+      </ul>
+      <p>En el corpus analizado, ningún fragmento fue clasificado en las categorías intermedias (asistencia moderada o leve): todos los textos recibieron clasificación binaria entre <em>Generado por IA</em> y <em>Escrito por humanos</em>. Esto refleja el output directo de Pangram 3.0 para estos documentos.</p>
+    </div>
+
+    <!-- Dataset -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Datos abiertos</p>
+      <h3>Variables del dataset</h3>
+      <p>Los datos están disponibles en formato abierto en la carpeta <code style="font-family:monospace;font-size:0.82rem;background:var(--gris-claro);border:1px solid var(--gris-borde);border-radius:3px;padding:1px 5px;">data/</code> del repositorio. El campo <code style="font-family:monospace;font-size:0.82rem;background:var(--gris-claro);border:1px solid var(--gris-borde);border-radius:3px;padding:1px 5px;">porcentaje_ia</code> es el valor redondeado al entero más próximo utilizado en la visualización; el valor preciso está en <code style="font-family:monospace;font-size:0.82rem;background:var(--gris-claro);border:1px solid var(--gris-borde);border-radius:3px;padding:1px 5px;">pct_generado_por_ia</code>.</p>
+      <table class="ficha-table">
+        <thead>
+          <tr>
+            <th style="width:210px">Columna</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>partido</code></td><td>Nombre del partido político</td></tr>
+          <tr><td><code>candidato</code></td><td>Nombre del candidato presidencial</td></tr>
+          <tr><td><code>version</code></td><td>Versión del documento cuando hay más de uno por partido</td></tr>
+          <tr><td><code>porcentaje_ia</code></td><td>Porcentaje titular de contenido generado por IA</td></tr>
+          <tr><td><code>palabras</code></td><td>Total de palabras del documento analizado</td></tr>
+          <tr><td><code>pct_generado_por_ia</code></td><td>% clasificado como generado íntegramente por IA</td></tr>
+          <tr><td><code>pct_asistencia_moderada_ia</code></td><td>% clasificado como asistencia moderada de IA</td></tr>
+          <tr><td><code>pct_asistencia_leve_ia</code></td><td>% clasificado como asistencia leve de IA</td></tr>
+          <tr><td><code>pct_escrito_por_humanos</code></td><td>% clasificado como escrito por humanos</td></tr>
+          <tr><td><code>pangram_url</code></td><td>Enlace al análisis individual en Pangram Labs</td></tr>
+          <tr><td><code>pdf</code></td><td>Ruta al PDF del plan de gobierno en el repositorio</td></tr>
+        </tbody>
+      </table>
+      <p>El archivo <code style="font-family:monospace;font-size:0.82rem;background:var(--gris-claro);border:1px solid var(--gris-borde);border-radius:3px;padding:1px 5px;">data/sparklines.csv</code> contiene la serie de tiempo en formato largo: la probabilidad de IA a lo largo del documento en aproximadamente 60 puntos de muestreo por registro.</p>
+    </div>
+
+    <!-- Limitaciones -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Limitaciones</p>
+      <h3>¿Qué dicen estos datos y qué no?</h3>
+      <p>Los porcentajes reflejan la probabilidad estadística de que el contenido haya sido generado por IA según el modelo de Pangram Labs. <strong>No constituyen prueba definitiva ni acusación formal de ningún tipo.</strong> Los detectores de IA operan sobre patrones estadísticos del texto y pueden producir falsos positivos, especialmente en documentos técnicos, textos con vocabulario muy estandarizado o fragmentos copiados de normativa oficial. Los resultados deben leerse como indicadores probabilísticos, no como veredictos.</p>
+      <p>El dataset está en actualización a medida que se incorporan nuevos planes o versiones corregidas de documentos ya analizados.</p>
+    </div>
+
+    <!-- Reproducibilidad -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Reproducibilidad</p>
+      <h3>Verificación independiente</h3>
+      <p>Cualquier persona puede verificar los resultados de forma independiente. Los enlaces a cada análisis individual en Pangram Labs están disponibles tanto en el reporte (botón "Ver reporte" por partido) como en la columna <code style="font-family:monospace;font-size:0.82rem;background:var(--gris-claro);border:1px solid var(--gris-borde);border-radius:3px;padding:1px 5px;">pangram_url</code> del CSV.</p>
+      <p>Los PDFs de los planes de gobierno analizados están disponibles en la carpeta <code style="font-family:monospace;font-size:0.82rem;background:var(--gris-claro);border:1px solid var(--gris-borde);border-radius:3px;padding:1px 5px;">planes/</code> del repositorio para consulta directa.</p>
+    </div>
+
+    <!-- Cómo citar -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Cita</p>
+      <h3>Cómo citar este trabajo</h3>
+      <div class="ficha-cita">
+        Monjaras, R., Ramírez, F. y Chocano, F. (2026). <em>Reporte de IA: Planes de Gobierno 2026</em>. Detección realizada con Pangram Labs. Disponible en: https://fiorellarmartins.github.io/reporte-ia-planes-2026
+      </div>
+      <p>Esta cita aplica para cualquier uso del reporte, los datos en CSV, las visualizaciones o cualquier derivado de este proyecto.</p>
+    </div>
+
+    <!-- Licencia -->
+    <div class="ficha-section">
+      <p class="ficha-section-label">Licencia y atribución</p>
+      <h3>Uso del material</h3>
+      <dl class="ficha-dl">
+        <dt>Código</dt>
+        <dd>Disponible bajo licencia <strong>MIT</strong></dd>
+        <dt>Datos de detección</dt>
+        <dd>Pertenecen a <a href="https://www.pangram.com" target="_blank" rel="noopener">Pangram Labs</a></dd>
+        <dt>Planes de gobierno</dt>
+        <dd>Documentos públicos del Jurado Nacional de Elecciones (JNE)</dd>
+        <dt>Logotipos</dt>
+        <dd>Usados con fines identificativos; propiedad de los respectivos partidos políticos</dd>
+      </dl>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Por <a href="https://x.com/robj02" target="_blank" rel="noopener">Roberto Monjaras</a>, <a href="https://x.com/fiormartins" target="_blank" rel="noopener">Fiorella Ramírez</a> y <a href="https://www.linkedin.com/in/francv/" target="_blank" rel="noopener">Francesca Chocano</a> · Datos: <a href="https://www.pangram.com" target="_blank" rel="noopener">Pangram Labs</a> · Elecciones Generales Perú 2026 · Logotipos usados con fines identificativos; propiedad de los respectivos partidos.</p>
+  </footer>
+
+</body>
+</html>
